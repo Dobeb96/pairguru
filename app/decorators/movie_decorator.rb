@@ -1,9 +1,10 @@
 class MovieDecorator < Draper::Decorator
   delegate_all
 
+  API_ENDPOINT = 'https://pairguru-api.herokuapp.com/'
+
   def cover
-    "http://lorempixel.com/100/150/" +
-      %w[abstract nightlife transport].sample +
-      "?a=" + SecureRandom.uuid
+    title = movie.title.downcase.gsub(' ', '_')
+    "#{API_ENDPOINT}#{title}.jpg"
   end
 end
