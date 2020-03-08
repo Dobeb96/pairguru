@@ -1,6 +1,19 @@
 %h1= @movie.title
 .jumbotron
-  =image_tag @movie.cover, class: 'img-rounded img-xl'
+  = image_tag @movie.cover, class: 'img-rounded img-xl'
   %article= @movie.description
 - if user_signed_in?
   %p= link_to 'Email me details about this movie', send_info_movie_path(@movie), class: 'btn btn-sm btn-default'
+= form_for [@movie, Comment.new] do |f|
+  = f.label :title
+  = f.text_field :title
+  = f.label :content
+  = f.text_area :content
+  = f.label :movie_id
+  = f.hidden_field :movie_id, value: @movie.id
+  = f.label :user_id
+  = f.hidden_field :user_id, value: User.new
+=link_to 'Add Comment', movie_comments_path(@movie), method: :POST
+-@movie.comments.each do |comment|
+  %h6= comment.title
+  %p= comment.text
